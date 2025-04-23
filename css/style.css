@@ -310,3 +310,44 @@ footer {
 .toolbar input[type="range"] {
   width: 150px;
 }
+/* ====== Modern Gallery Styles ====== */
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gallery-card {
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.gallery-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+.gallery-card img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  border-bottom: 1px solid #eee;
+}
+
+.gallery-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.75rem 0;
+  margin: 0;
+  color: #333;
+}
