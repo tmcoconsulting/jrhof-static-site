@@ -118,3 +118,52 @@ footer {
   margin-top: 4rem;
   font-size: 0.9rem;
 }
+
+.bio-img {
+  float: left;
+  margin: 0 1.5rem 1rem 0;
+  max-width: 300px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.comments {
+  clear: both;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #ccc;
+}
+
+.comments h3 {
+  text-align: center;
+}
+
+.comment-placeholder {
+  text-align: center;
+  font-style: italic;
+  color: #666;
+}
+
+.cta-container {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: #0078D7;
+  color: white;
+  padding: 0.9rem 1.75rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cta-button:hover {
+  background-color: #005fa3;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
