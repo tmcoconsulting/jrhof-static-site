@@ -168,38 +168,47 @@ footer {
   text-decoration: none;
 }
 
-/* Container for iframe to ensure better control */
+/* Ensure the iframe container is responsive */
 .program-frame-container {
   width: 100%;
-  overflow: hidden;
+  overflow: hidden; /* Prevents scrolling out of bounds */
   border-radius: 12px;
   margin-top: 2rem;
 }
 
-/* Improved iframe styling for better mobile responsiveness */
+/* Basic iframe styling */
 .program-frame {
   width: 100%;
-  height: 80vh; /* Ensure the height adjusts on mobile */
+  height: 80vh; /* Maintain a height that adjusts on mobile */
   border: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  object-fit: contain; /* Ensures the PDF scales properly within the iframe */
 }
 
-/* Mobile adjustments for iframe */
+/* Mobile-specific adjustments */
 @media screen and (max-width: 768px) {
   .program-frame {
-    height: 60vh; /* Adjust height on smaller screens */
+    height: 70vh; /* Reduce height on smaller screens */
+    object-fit: contain; /* Ensures content scales properly on smaller devices */
   }
   
   .program-frame-container {
-    padding: 0 1rem; /* Add some padding around the iframe */
+    padding: 0 1rem; /* Add padding around the iframe on mobile */
   }
 }
 
-/* Specific fixes for Safari */
+/* Safari-specific fixes */
 @supports (-webkit-touch-callout: none) {
   .program-frame {
-    -webkit-transform: translate3d(0, 0, 0); /* Fix rendering issues in Safari */
-    transform: translate3d(0, 0, 0); /* Ensure smooth scaling */
+    -webkit-transform: translate3d(0, 0, 0); /* Force hardware acceleration for Safari */
+    transform: translate3d(0, 0, 0); /* Smooth scaling */
+    -webkit-overflow-scrolling: touch; /* Enable smooth scrolling in Safari */
+  }
+
+  /* Ensure no overflow issue in Safari */
+  .program-frame-container {
+    overflow: auto;
+    max-height: 80vh;
   }
 }
 
