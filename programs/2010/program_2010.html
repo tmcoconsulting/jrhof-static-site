@@ -8,6 +8,8 @@
   <meta name="author" content="JR and Associates, Inc.">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/style.css" />
+  <!-- PDF.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 </head>
 <body>
   <header>
@@ -24,21 +26,61 @@
 
   <section class="section">
     <h2>View the Full Program</h2>
-    <div class="program-frame-container">
-        <iframe class="program-frame" src="2010_program.pdf" title="2010 Joe Rossi HOF Program">
-            Your browser does not support PDFs. <a href="2010_program.pdf" target="_blank">Click here to download.</a>
-        </iframe>
+    <div id="pdf-toolbar" class="toolbar">
+      <button id="prev">⟵</button>
+      <span id="page-info">Page 1 of ...</span>
+      <button id="next">⟶</button>
+      <input type="range" id="page-slider" min="1" value="1" />
+      <a href="2010_program.pdf" download class="download-btn">⬇️ Download PDF</a>
     </div>
-</section>
-
-  <section class="section">
-    <h2>Browse Page-by-Page</h2>
-    <div class="program-gallery">
-      <img src="page01.jpg" alt="Page 1">
-      <img src="page02.jpg" alt="Page 2">
-      <img src="page03.jpg" alt="Page 3">
-      <!-- Add more pages as needed -->
-    </div>
+    <canvas id="pdf-canvas" class="pdf-page"></canvas>
+    
+    <script>
+      const url = '2010_program.pdf';
+      let pdfDoc = null,
+          currentPage = 1,
+          totalPages = 0,
+          canvas = document.getElementById('pdf-canvas'),
+          ctx = canvas.getContext('2d');
+    
+      function renderPage(num) {
+        pdfDoc.getPage(num).then(page => {
+          const scale = 1.5;
+          const viewport = page.getViewport({ scale: scale });
+    
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+    
+          let renderCtx = {
+            canvasContext: ctx,
+            viewport: viewport
+          };
+          page.render(renderCtx);
+          document.getElementById('page-info').textContent = `Page ${num} of ${totalPages}`;
+          document.getElementById('page-slider').value = num;
+        });
+      }
+    
+      pdfjsLib.getDocument(url).promise.then(pdf => {
+        pdfDoc = pdf;
+        totalPages = pdf.numPages;
+        document.getElementById('page-slider').max = totalPages;
+        renderPage(currentPage);
+      });
+    
+      document.getElementById('prev').addEventListener('click', () => {
+        if (currentPage > 1) renderPage(--currentPage);
+      });
+    
+      document.getElementById('next').addEventListener('click', () => {
+        if (currentPage < totalPages) renderPage(++currentPage);
+      });
+    
+      document.getElementById('page-slider').addEventListener('input', (e) => {
+        currentPage = parseInt(e.target.value);
+        renderPage(currentPage);
+      });
+    </script>
   </section>
 
   <footer>
