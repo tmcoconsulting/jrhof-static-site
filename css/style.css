@@ -16,7 +16,6 @@ header {
   color: white;
   text-align: center;
   padding: 2rem 1rem;
-  background-image: url('../images/umpire_plate.jpg');
   background-size: cover;
   background-position: center;
   background-blend-mode: overlay;
@@ -385,4 +384,28 @@ footer {
 .program-year-grid .cta-button {
   min-width: 120px;
   text-align: center;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body.flex-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+body.flex-layout > .container {
+  flex: 1;
+}
+
+footer {
+  margin-top: auto;
+  background: #222;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
 }
