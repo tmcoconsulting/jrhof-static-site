@@ -3,8 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="View the Joe Rossi Hall of Fame inductees, honoring Colorado high school baseball umpires through the years.">
+  <meta property="og:title" content="Joe Rossi Hall of Fame - Inductee Gallery">
+  <meta property="og:description" content="Explore Hall of Fame inductees year by year. Honoring Colorado high school umpires.">
+  <meta property="og:image" content="https://tmcoconsulting.github.io/jrhof-static-site/images/default_og.jpg">
+  <meta property="og:url" content="https://tmcoconsulting.github.io/jrhof-static-site/gallery.html">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://tmcoconsulting.github.io/jrhof-static-site/gallery.html" />
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
   <title>Inductee Gallery | Joe Rossi Hall of Fame</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico" sizes="32x32">
   <style>
     .gallery-grid {
       display: grid;
@@ -58,9 +67,9 @@
     <div id="gallery-grid"></div>
   </section>
 
-  <footer>
-    <p>&copy; 2025 JR and Associates, Inc. | DBA: Joe Rossi Hall of Fame | 501(c)(3) Nonprofit | <a href="https://www.tmcoconsulting.com" target="_blank">Built with pride by TMCO Consulting</a></p>
-  </footer>
+<footer>
+  <p>&copy; 2025 JR and Associates, Inc. | DBA: Joe Rossi Hall of Fame | 501(c)(3) Nonprofit | <a href="https://www.tmcoconsulting.com" target="_blank" rel="noopener noreferrer">Built with pride by TMCO Consulting</a></p>
+</footer>
 
   <script>
     // Fetch inductee data from JSON
@@ -110,11 +119,15 @@
 
             const img = document.createElement('img');
             const imageFile = inductee.image || inductee["Image"];
-            img.src = `images/${imageFile}`;
-            img.onerror = () => {
-              img.onerror = null;
+            if (!imageFile || imageFile.trim() === "") {
               img.src = 'images/default_inductee.png';
-            };
+            } else {
+              img.src = `images/${imageFile}`;
+              img.onerror = () => {
+                img.onerror = null;
+                img.src = 'images/default_inductee.png';
+              };
+            }
             img.alt = `${inductee.name || inductee["Name"]}, Hall of Fame Inductee`;
             img.loading = 'lazy';
 
@@ -133,5 +146,6 @@
       })
       .catch(error => console.error('Error loading inductees data:', error));
   </script>
+
 </body>
 </html>
