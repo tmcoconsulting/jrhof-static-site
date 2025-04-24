@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="View the Joe Rossi Hall of Fame inductees, honoring Colorado high school baseball umpires through the years.">
+  <meta property="og:title" content="Joe Rossi Hall of Fame - Inductee Gallery">
+  <meta property="og:description" content="Explore Hall of Fame inductees year by year. Honoring Colorado high school umpires.">
+  <meta property="og:image" content="https://tmcoconsulting.github.io/jrhof-static-site/images/default_og.jpg">
+  <meta property="og:url" content="https://tmcoconsulting.github.io/jrhof-static-site/gallery.html">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://tmcoconsulting.github.io/jrhof-static-site/gallery.html" />
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <title>Inductee Gallery | Joe Rossi Hall of Fame</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico" sizes="32x32">
+  <style>
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+    }
+
+    .gallery-card img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      max-height: 120px;
+      border-radius: 8px;
+      transition: transform 0.2s ease;
+    }
+
+    .gallery-card h3 {
+      font-size: 0.75rem;
+      margin: 0.25rem 0 0;
+    }
+
+    .gallery-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .year-section {
+      margin-bottom: 1rem;
+    }
+
+    .year-section h3 {
+      margin-bottom: 0.25rem;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Joe Rossi Hall of Fame - Inductee Gallery</h1>
+    <p>Honoring the legacy of all our inductees.</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="donate.html">Donate</a>
+  </nav>
+
+  <section class="section" id="gallery">
+    <h2 style="text-align:center;" id="class-title"></h2>
+    <div id="gallery-grid"></div>
+  </section>
+
+<footer>
+  <p>&copy; 2025 JR and Associates, Inc. | DBA: Joe Rossi Hall of Fame | 501(c)(3) Nonprofit | <a href="https://www.tmcoconsulting.com" target="_blank" rel="noopener noreferrer">Built with pride by TMCO Consulting</a></p>
+</footer>
+
+  <script>
+    // Fetch inductee data from JSON
+    fetch('./inductees.json')
+      .then(response => response.json())
+      .then(inductees => {
+        const galleryGrid = document.getElementById('gallery-grid');
+        const classTitle = document.getElementById('class-title');
+
+        // Set the title for the inductee class (you can customize this for different years)
+        classTitle.textContent = "Class of 2025";
+
+        // Group inductees by year
+        const groupedByYear = {};
+        inductees.forEach(inductee => {
+          const year = inductee.year || inductee["Year"] || inductee["year"];
+          if (!groupedByYear[year]) {
+            groupedByYear[year] = [];
+          }
+          groupedByYear[year].push(inductee);
+        });
+
+        // Sort years in descending order
+        const sortedYears = Object.keys(groupedByYear).sort((a, b) => b - a);
+
+        // Clear existing content
+        galleryGrid.innerHTML = '';
+
+        // Create sections for each year
+        sortedYears.forEach(year => {
+          const yearSection = document.createElement('section');
+          yearSection.classList.add('year-section');
+
+          const yearHeader = document.createElement('h3');
+          yearHeader.textContent = `Class of ${year}`;
+          yearSection.appendChild(yearHeader);
+
+          const yearGrid = document.createElement('div');
+          yearGrid.classList.add('gallery-grid');
+
+          groupedByYear[year].forEach(inductee => {
+            const card = document.createElement('article');
+            card.classList.add('gallery-card');
+
+            const anchor = document.createElement('a');
+            anchor.href = inductee.bio || inductee["Bio URL"] || inductee["bio"];
+
+            const img = document.createElement('img');
+            const imageFile = inductee.image || inductee["Image"];
+            if (!imageFile || imageFile.trim() === "") {
+              img.src = 'images/default_inductee.png';
+            } else {
+              img.src = `images/${imageFile}`;
+              img.onerror = () => {
+                img.onerror = null;
+                img.src = 'images/default_inductee.png';
+              };
+            }
+            img.alt = `${inductee.name || inductee["Name"]}, Hall of Fame Inductee`;
+            img.loading = 'lazy';
+
+            const h3 = document.createElement('h3');
+            h3.textContent = inductee.name || inductee["Name"];
+
+            anchor.appendChild(img);
+            anchor.appendChild(h3);
+            card.appendChild(anchor);
+            yearGrid.appendChild(card);
+          });
+
+          yearSection.appendChild(yearGrid);
+          galleryGrid.appendChild(yearSection);
+        });
+      })
+      .catch(error => console.error('Error loading inductees data:', error));
+  </script>
+
+</body>
+</html>
