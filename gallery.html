@@ -109,7 +109,12 @@
             anchor.href = inductee.bio || inductee["Bio URL"] || inductee["bio"];
 
             const img = document.createElement('img');
-            img.src = `images/${inductee.image || inductee["Image"]}`;
+            const imageFile = inductee.image || inductee["Image"];
+            img.src = `images/${imageFile}`;
+            img.onerror = () => {
+              img.onerror = null;
+              img.src = 'images/default_inductee.png';
+            };
             img.alt = `${inductee.name || inductee["Name"]}, Hall of Fame Inductee`;
             img.loading = 'lazy';
 
