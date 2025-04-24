@@ -409,3 +409,19 @@ footer {
   padding: 1rem;
   font-size: 0.9rem;
 }
+
+.text-center {
+  text-align: center;
+}
+
+.event-image {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.trophy-list {
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  text-align: left;
+}
